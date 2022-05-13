@@ -98,7 +98,7 @@ const Home: NextPage = () => {
     if (currentPage === 1) {
       getReceivedMemos();
     }
-  }, [currentPage]);
+  }, [currentPage, getReceivedMemos]);
 
   return (
     <div className="flex flex-col items-center w-screen h-screen bg-stone-900 font-['Poppins']">
@@ -147,6 +147,7 @@ const Home: NextPage = () => {
                   <>
                     <Image
                       src="/images/coffee.svg"
+                      alt="coffee"
                       width={200}
                       height={200}
                       className="animate-spin"
@@ -157,6 +158,7 @@ const Home: NextPage = () => {
                   <>
                     <Image
                       src="/images/coffee.svg"
+                      alt="coffee"
                       width={200}
                       height={200}
                       className="hover:animate-spin"
@@ -167,6 +169,7 @@ const Home: NextPage = () => {
                   <div className="space-y-4 text-sm w-full p-10">
                     <Image
                       src="/images/coffee.svg"
+                      alt="coffee"
                       width={80}
                       height={80}
                       className="hover:animate-spin"
@@ -233,6 +236,7 @@ const Home: NextPage = () => {
                               ? "/images/box-highlight.svg"
                               : "/images/box.svg"
                           }
+                          alt="box"
                           width={100}
                           height={100}
                         />
@@ -245,6 +249,7 @@ const Home: NextPage = () => {
                         >
                           <Image
                             src="/images/cup.svg"
+                            alt="cup"
                             width={coffee?.boxSize}
                             height={coffee?.boxSize}
                           />
