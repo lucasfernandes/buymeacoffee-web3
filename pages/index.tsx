@@ -217,7 +217,7 @@ const Home: NextPage = () => {
               </div>
 
               <div className="flex flex-col justify-center space-y-10">
-                {coffeeTypes.reverse().map((coffee, index) => (
+                {coffeeTypes.map((coffee, index) => (
                   <div
                     className="flex flex-row items-center space-x-5"
                     key={index}
