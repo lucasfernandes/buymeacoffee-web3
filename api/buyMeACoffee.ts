@@ -38,7 +38,7 @@ export async function buy({name, message, value, type}: buyProps) {
           type: "",
           title: "Transaction Submited",
           message: "Your coffee was successfully submitted.",
-          link: `https://goerli.etherscan.io/tx/${coffeeTxn}`,
+          link: `https://goerli.etherscan.io/tx/${coffeeTxn.hash}`,
         });
 
         await coffeeTxn.wait();
@@ -47,7 +47,7 @@ export async function buy({name, message, value, type}: buyProps) {
           type: "success",
           title: "Thank you!",
           message: "Your coffee was successfully sent.",
-          link: `https://goerli.etherscan.io/tx/${coffeeTxn}`,
+          link: `https://goerli.etherscan.io/tx/${coffeeTxn.hash}`,
         });
         
 
