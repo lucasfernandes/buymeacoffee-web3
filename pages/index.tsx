@@ -134,7 +134,12 @@ const Home: NextPage = () => {
 
         {currentPage === 0 ? (
           <div className="flex flex-col md:flex-row justify-between items-center mb-[100px]">
-            <div className="flex flex-col justify-center items-center bg-gradient-to-t from-stone-600 to-stone-800 rounded-[38px] shadow-2xl w-[400px] h-[400px]">
+            <div
+              className="
+              flex flex-col justify-center items-center bg-gradient-to-t from-stone-600 to-stone-800 rounded-[38px] shadow-2xl w-[320px] h-[300px]
+              xs:w-[400px] xs:h-[400px]
+              "
+            >
               {loading && (
                 <>
                   <Image

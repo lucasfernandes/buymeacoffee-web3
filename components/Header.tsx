@@ -66,7 +66,7 @@ export default function Header({
           </button>
         </div>
 
-        <ConnectButton />
+        {/* <ConnectButton /> */}
         <div className="dropdown dropdown-end">
           <label tabIndex={0} className="btn btn-ghost btn-circle">
             <svg
@@ -104,15 +104,18 @@ export default function Header({
               </button>
             </li>
             {data && (
-              <li>
+              <li className="pl-3">
                 <button
-                  className="bg-orange-400 pl-[17px] py-2 text-white hover:bg-orange-500 rounded-2xl hover:bg-orange-500 active:bg-orange-300"
+                  className="bg-orange-400  mb-2 text-white hover:bg-orange-500 rounded-2xl hover:bg-orange-500 active:bg-orange-300 max-w-[159px]"
                   onClick={handleWithdraw}
                 >
                   Withdraw Coffees
                 </button>
               </li>
             )}
+            <li className="pl-2">
+              <ConnectButton />
+            </li>
           </ul>
         </div>
       </div>
