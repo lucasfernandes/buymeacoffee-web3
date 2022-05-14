@@ -163,16 +163,17 @@ const Home: NextPage = () => {
                 </>
               )}
               {!loading && Object.keys(selected).length > 0 && (
-                <div className="space-y-4 text-sm w-full p-10">
-                  <Image
-                    src="/images/coffee.svg"
-                    alt="coffee"
-                    width={80}
-                    height={80}
-                    className="hover:animate-spin"
-                  />
+                <div className="flex flex-col justify-center items-center space-y-4 text-sm w-full p-10">
+                  <div className="relative w-[50px] h-[50px] xs:w-[80px] xs:h-[80px]">
+                    <Image
+                      src="/images/coffee.svg"
+                      alt="coffee"
+                      layout="fill"
+                      className="hover:animate-spin"
+                    />
+                  </div>
 
-                  <div className="p-4 bg-stone-900 hover:bg-stone-800 active:bg-stone-800 rounded-xl">
+                  <div className="p-2 xs:p-4 bg-stone-900 hover:bg-stone-800 active:bg-stone-800 rounded-xl w-full">
                     <input
                       type="text"
                       spellCheck={false}
@@ -182,7 +183,7 @@ const Home: NextPage = () => {
                       onChange={handleNameChange}
                     />
                   </div>
-                  <div className="p-4 bg-stone-900 hover:bg-stone-800 active:bg-stone-800 rounded-xl">
+                  <div className="p-2 xs:p-4 bg-stone-900 hover:bg-stone-800 active:bg-stone-800 rounded-xl w-full">
                     <textarea
                       spellCheck={false}
                       style={{ resize: "none" }}
@@ -199,7 +200,7 @@ const Home: NextPage = () => {
                       data
                         ? "bg-green-700 hover:bg-green-600 active:bg-green-500"
                         : "bg-green-700 opacity-50"
-                    }  p-4 rounded-3xl w-full shadow-xl`}
+                    }  p-3 xs:p-4 rounded-3xl w-full shadow-xl text-[10px] xs:text-sm`}
                     onClick={handleBuy}
                   >
                     Send a {selected.name} Coffee ({selected?.value?.toString()}{" "}
@@ -207,7 +208,7 @@ const Home: NextPage = () => {
                   </button>
 
                   <button
-                    className="flex justify-center items-center w-full text-stone-900 hover:text-stone-800"
+                    className="flex justify-center items-center w-full text-stone-900 hover:text-stone-800 text-[10px] xs:text-sm"
                     onClick={() => setSelected({} as CoffeeType)}
                   >
                     Cancel
@@ -272,7 +273,7 @@ const Home: NextPage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex flex-col md:flex-row justify-center items-center w-full flex-wrap w-[800px]">
+          <div className="flex flex-col md:flex-row justify-center items-center w-full flex-wrap max-w-[800px]">
             {loading && (
               <div className="mb-60 animate-pulse">
                 <Image
@@ -296,7 +297,7 @@ const Home: NextPage = () => {
               memos.map((memo, index) => (
                 <div
                   key={index}
-                  className="bg-stone-800 p-6 rounded-2xl text-left text-sm space-y-2 shadow-2xl m-4"
+                  className="bg-stone-800 p-6 rounded-2xl text-left text-sm space-y-2 shadow-2xl my-4 sm:mx-4"
                 >
                   <div>
                     <div className="text-orange-300 text-[22px]">{memo[2]}</div>
