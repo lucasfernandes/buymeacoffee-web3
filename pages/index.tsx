@@ -2,10 +2,10 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
-import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useAccount } from "wagmi";
 import { ToastContainer } from "react-toastify";
 import { buy, getMemos, withdraw } from "../api/buyMeACoffee";
+import Header from "../components/Header";
 import "react-toastify/dist/ReactToastify.css";
 
 type CoffeeType = {
@@ -46,6 +46,7 @@ const Home: NextPage = () => {
   ]);
   const [memos, setMemos] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [wallet, setWallet] = useState(null as any);
   const { data } = useAccount();
 
   function handleNameChange(e: React.ChangeEvent<HTMLInputElement>) {
@@ -86,62 +87,53 @@ const Home: NextPage = () => {
   }
 
   async function handleWithdraw() {
+    setLoading(true);
     await withdraw();
+    setLoading(false);
   }
 
   const getReceivedMemos = useCallback(async () => {
+    setLoading(true);
     const allMemos = await getMemos();
-    setMemos(allMemos);
+    setMemos(allMemos || []);
+    setLoading(false);
   }, []);
 
   useEffect(() => {
     if (currentPage === 1) {
       getReceivedMemos();
     }
-  }, [currentPage, getReceivedMemos]);
+  }, [currentPage, wallet, getReceivedMemos]);
+
+  useEffect(() => {
+    if (data) {
+      return setWallet(data);
+    }
+
+    return setWallet(null);
+  }, [data, setWallet]);
 
   return (
-    <div className="flex flex-col items-center w-screen h-screen bg-stone-900 font-['Poppins']">
+    <div className="flex flex-col items-center w-full h-full bg-stone-900 font-['Poppins'] min-h-screen">
       <Head>
         <title>Buy me a coffee</title>
         <meta name="description" content="Buy me a coffee ethereum app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <div className="w-full p-8 flex justify-center items-center space-x-10 bg-stone-800">
-        <button
-          className={`text-orange-200 hover:text-orange-400 ${
-            currentPage === 0 && "border-b-2 border-orange-200"
-          }`}
-          onClick={() => setCurrentPage(0)}
-        >
-          Buy me a Coffee
-        </button>
-        <button
-          className={`text-orange-200 hover:text-orange-400 ${
-            currentPage === 1 && "border-b-2 border-orange-200"
-          }`}
-          onClick={() => setCurrentPage(1)}
-        >
-          Check Memos
-        </button>{" "}
-        {data && (
-          <button
-            className="bg-orange-400 p-4 text-white hover:bg-orange-500 rounded-2xl"
-            onClick={handleWithdraw}
-          >
-            Withdraw Coffees
-          </button>
-        )}
-        <ConnectButton />
-      </div>
+      <Header
+        data={wallet}
+        currentPage={currentPage}
+        handleWithdraw={handleWithdraw}
+        setCurrentPage={setCurrentPage}
+      />
       <main className="text-white text-[30px] text-center">
-        <div className="my-20 font-bold text-[64px]">
+        <div className="my-10 lg:my-20 font-bold text-[34px] md:text-[44px] lg:text-[64px]">
           {currentPage === 0 ? "Buy me a coffee" : "Memos received"}
         </div>
 
         {currentPage === 0 ? (
-          <div className="flex flex-row justify-between items-center mb-[100px]">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-[100px]">
             <div className="flex flex-col justify-center items-center bg-gradient-to-t from-stone-600 to-stone-800 rounded-[38px] shadow-2xl w-[400px] h-[400px]">
               {loading && (
                 <>
@@ -219,10 +211,18 @@ const Home: NextPage = () => {
               )}
             </div>
 
-            <div className="flex flex-col justify-center space-y-10 ml-12">
+            <div
+              className="
+              flex flex-row justify-between mt-12 w-full
+              md:flex-col md:justify-center md:space-y-10 md:ml-12 md:mt-0 md:w-auto
+            "
+            >
               {coffeeTypes.map((coffee, index) => (
                 <div
-                  className="flex flex-row items-center space-x-5"
+                  className="
+                    flex flex-col items-center w-full
+                    md:flex-row md:space-x-5
+                  "
                   key={index}
                 >
                   <button
@@ -256,9 +256,9 @@ const Home: NextPage = () => {
                       </div>
                     </div>
                   </button>
-                  <div className="text-left">
-                    <div>{coffee.name}</div>
-                    <div className="text-[16px]">
+                  <div className="md:text-left">
+                    <div className="text-[22px] md:text-md">{coffee.name}</div>
+                    <div className="text-[12px] md:text-[16px]">
                       {coffee?.value?.toString()} ETH
                     </div>
                   </div>
@@ -267,37 +267,57 @@ const Home: NextPage = () => {
             </div>
           </div>
         ) : (
-          <div className="flex justify-center items-center w-full flex-wrap w-[800px]">
-            {memos.map((memo, index) => (
-              <div
-                key={index}
-                className="bg-stone-800 p-6 rounded-2xl text-left text-sm space-y-2 shadow-2xl m-4"
-              >
-                <div>
-                  <div className="text-orange-300 text-[22px]">{memo[2]}</div>
-                  <div className="leading-8">
-                    He sent a {handleSize(memo[4])} coffee
-                    <span className="text-[12px] ml-1">
-                      (
-                      {Number(memo[4]) === 1
-                        ? "0.001 ETH"
-                        : Number(memo[4]) === 2
-                        ? "0.003 ETH"
-                        : "0.005 ETH"}
-                      )
-                    </span>
+          <div className="flex flex-col md:flex-row justify-center items-center w-full flex-wrap w-[800px]">
+            {loading && (
+              <div className="mb-60 animate-pulse">
+                <Image
+                  src="/images/coffee.svg"
+                  alt="coffee"
+                  width={200}
+                  height={200}
+                  className="animate-spin"
+                />
+              </div>
+            )}
+            {!loading && memos.length === 0 && (
+              <div className="flex flex-col justify-center items-center space-y-6 mb-32 bg-stone-800 px-24 py-12 rounded-2xl shadow-2xl m-4">
+                <div className="relative w-[140px] h-[140px]">
+                  <Image src="/images/sadcup.svg" layout="fill" alt="sad cup" />
+                </div>
+                <p className="text-lg">No memos yet</p>
+              </div>
+            )}
+            {!loading &&
+              memos.map((memo, index) => (
+                <div
+                  key={index}
+                  className="bg-stone-800 p-6 rounded-2xl text-left text-sm space-y-2 shadow-2xl m-4"
+                >
+                  <div>
+                    <div className="text-orange-300 text-[22px]">{memo[2]}</div>
+                    <div className="leading-8">
+                      He sent a {handleSize(memo[4])} coffee
+                      <span className="text-[12px] ml-1">
+                        (
+                        {Number(memo[4]) === 1
+                          ? "0.001 ETH"
+                          : Number(memo[4]) === 2
+                          ? "0.003 ETH"
+                          : "0.005 ETH"}
+                        )
+                      </span>
+                    </div>
+                  </div>
+
+                  <div className="text-[12px] text-orange-300">
+                    Message:
+                    <div className="text-white">{memo[3]}</div>
+                  </div>
+                  <div className="text-[12px] text-orange-300">
+                    Wallet:<div className="text-white">{memo[0]}</div>
                   </div>
                 </div>
-
-                <div className="text-[12px] text-orange-300">
-                  Message:
-                  <div className="text-white">{memo[3]}</div>
-                </div>
-                <div className="text-[12px] text-orange-300">
-                  Wallet:<div className="text-white">{memo[0]}</div>
-                </div>
-              </div>
-            ))}
+              ))}
           </div>
         )}
       </main>

@@ -12,10 +12,6 @@ type buyProps = {
 }
 
 export async function buy({name, message, value, type}: buyProps) {
-
-    console.log(name, message, type, value);
-    
-
     try {
       if (window.ethereum) {
         const provider = new ethers.providers.Web3Provider(window.ethereum as any);
@@ -53,12 +49,12 @@ export async function buy({name, message, value, type}: buyProps) {
 
         console.log("mined ", coffeeTxn.hash);
       }
-    } catch (error) {
+    } catch (error: any) {
       console.log(error);
       Notification({
         type: "error",
         title: "Transaction failure",
-        message: error as string,
+        message: error.error ? error.error.message : error.message,
         link: "",
       });
     }
@@ -112,7 +108,6 @@ export async function withdraw() {
       });
 
       console.log(coffeeTxn);
-      
 
       await coffeeTxn.wait();
 
@@ -129,11 +124,10 @@ export async function withdraw() {
     }
     
   } catch (error: any) {
-    console.log(error);
     Notification({
       type: "error",
       title: "Transaction failure",
-      message: error.message,
+      message: error.error ? error.error.message : error.message,
       link: "",
     });
   }
