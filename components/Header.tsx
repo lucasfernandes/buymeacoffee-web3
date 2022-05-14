@@ -18,10 +18,13 @@ export default function Header({
     <>
       <div className="hidden xl:flex w-full px-8 py-4 justify-center items-center bg-stone-800">
         <div className="w-full flex flex-row justify-between items-center">
-          <div className="flex flex-row justify-between items-center text-xl text-orange-200 w-[244px]">
+          <button
+            onClick={() => setCurrentPage(0)}
+            className="flex flex-row justify-between items-center text-xl text-orange-200 w-[244px]"
+          >
             <Image src="/images/coffee.svg" width={70} height={70} alt="logo" />
             Buy me a coffee
-          </div>
+          </button>
           <div className="flex flex-row items-center space-x-10">
             <button
               className={`text-orange-200 hover:text-orange-400 ${
