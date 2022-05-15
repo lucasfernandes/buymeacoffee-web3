@@ -302,7 +302,7 @@ const Home: NextPage = () => {
                   <div>
                     <div className="text-orange-300 text-[22px]">{memo[2]}</div>
                     <div className="leading-8">
-                      He sent a {handleSize(memo[4])} coffee
+                      sent a {handleSize(memo[4])} coffee
                       <span className="text-[12px] ml-1">
                         (
                         {Number(memo[4]) === 1
