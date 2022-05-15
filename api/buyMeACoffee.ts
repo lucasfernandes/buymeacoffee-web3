@@ -63,9 +63,7 @@ export async function buy({name, message, value, type}: buyProps) {
 export async function getMemos() {    
   try {
     const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL, "goerli");
-    const wallet = new ethers.Wallet(process.env.NEXT_PUBLIC_MNEMONIC || "");
-    const signer = wallet.connect(provider);    
-    const buyMeACoffee = new ethers.Contract(CONTRACT, ABI, signer);    
+    const buyMeACoffee = new ethers.Contract(CONTRACT, ABI, provider);
     const memos = await buyMeACoffee.getMemos();
     return memos;
   } catch (error) {
