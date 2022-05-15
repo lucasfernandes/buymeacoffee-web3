@@ -103,7 +103,7 @@ const Home: NextPage = () => {
     if (currentPage === 1) {
       getReceivedMemos();
     }
-  }, [currentPage, wallet, getReceivedMemos]);
+  }, [currentPage, getReceivedMemos]);
 
   useEffect(() => {
     if (data) {

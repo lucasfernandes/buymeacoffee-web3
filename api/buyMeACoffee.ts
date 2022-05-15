@@ -60,26 +60,14 @@ export async function buy({name, message, value, type}: buyProps) {
     }
 }
 
-export async function getMemos() {
+export async function getMemos() {    
   try {
-    const { ethereum } = window;
-    if (window.ethereum) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum as any);
-      const signer = provider.getSigner();
-      const buyMeACoffee = new ethers.Contract(
-        CONTRACT,
-        ABI,
-        signer
-      );
-      
-      console.log("fetching memos from the blockchain..");
-      const memos = await buyMeACoffee.getMemos();
-      console.log("fetched!");
-      return memos;
-    } else {
-      console.log("Metamask is not connected");
-    }
-    
+    const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL, "goerli");
+    const wallet = new ethers.Wallet(process.env.NEXT_PUBLIC_MNEMONIC || "");
+    const signer = wallet.connect(provider);    
+    const buyMeACoffee = new ethers.Contract(CONTRACT, ABI, signer);    
+    const memos = await buyMeACoffee.getMemos();
+    return memos;
   } catch (error) {
     console.log(error);
   }
