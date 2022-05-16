@@ -216,7 +216,6 @@ const Home: NextPage = () => {
                 </div>
               )}
             </div>
-
             <div
               className="
               flex flex-row justify-between mt-12 w-full
