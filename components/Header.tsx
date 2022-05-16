@@ -1,19 +1,39 @@
 import Image from "next/image";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { isOwner } from "./../api/buyMeACoffee";
+import { useCallback, useEffect, useState } from "react";
 
 type Props = {
   currentPage: number;
   setCurrentPage: any;
-  data: any;
+  wallet: any;
   handleWithdraw: any;
 };
 
 export default function Header({
   currentPage,
   setCurrentPage,
-  data,
+  wallet,
   handleWithdraw,
 }: Props) {
+  const [showWithdraw, setShowWithdraw] = useState(false);
+
+  const checkIsOwner = useCallback(
+    async (address: string) => {
+      const response = await isOwner(address);
+
+      setShowWithdraw(response || false);
+
+      console.log(response);
+    },
+    [setShowWithdraw]
+  );
+
+  useEffect(() => {
+    if (wallet && wallet.address) {
+      checkIsOwner(wallet.address);
+    }
+  }, [wallet]);
   return (
     <>
       <div className="hidden xl:flex w-full px-8 py-4 justify-center items-center bg-stone-800">
@@ -42,7 +62,7 @@ export default function Header({
             >
               Check Memos
             </button>{" "}
-            {data && (
+            {showWithdraw && (
               <button
                 className="bg-orange-400 p-4 text-white hover:bg-orange-500 rounded-2xl"
                 onClick={handleWithdraw}
@@ -103,7 +123,7 @@ export default function Header({
                 Check Memos
               </button>
             </li>
-            {data && (
+            {showWithdraw && (
               <li className="pl-3">
                 <button
                   className="bg-orange-400  mb-2 text-white hover:bg-orange-500 rounded-2xl hover:bg-orange-500 active:bg-orange-300 max-w-[159px]"

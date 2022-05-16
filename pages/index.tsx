@@ -122,7 +122,7 @@ const Home: NextPage = () => {
       </Head>
 
       <Header
-        data={wallet}
+        wallet={wallet}
         currentPage={currentPage}
         handleWithdraw={handleWithdraw}
         setCurrentPage={setCurrentPage}

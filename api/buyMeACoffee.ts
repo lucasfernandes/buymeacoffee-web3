@@ -13,6 +13,18 @@ type buyProps = {
   type: number
 }
 
+export async function isOwner(address: string) {
+  try {
+    const provider = new ethers.providers.JsonRpcProvider(ftmChain);
+    const buyMeACoffee = new ethers.Contract(CONTRACT, ABI, provider);
+    const owner = await buyMeACoffee.owner();
+    
+    return address === owner;
+  } catch (error) {
+    console.log(error);
+  }
+}
+
 export async function buy({name, message, value, type}: buyProps) {
     try {
       if (window.ethereum) {
