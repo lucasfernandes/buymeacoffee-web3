@@ -25,21 +25,21 @@ const Home: NextPage = () => {
     {
       size: 1,
       name: "Small",
-      value: 0.001,
+      value: 1,
       boxSize: 60,
       class: "top-[22%] left-[20%]",
     },
     {
       size: 2,
       name: "Medium",
-      value: 0.003,
+      value: 3,
       boxSize: 70,
       class: "top-5 left-4",
     },
     {
       size: 3,
       name: "Large",
-      value: 0.005,
+      value: 5,
       boxSize: 80,
       class: "top-4 left-3",
     },
@@ -117,7 +117,7 @@ const Home: NextPage = () => {
     <div className="flex flex-col items-center w-full h-full bg-stone-900 font-['Poppins'] min-h-screen">
       <Head>
         <title>Buy me a coffee</title>
-        <meta name="description" content="Buy me a coffee ethereum app" />
+        <meta name="description" content="Buy me a coffee app" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
@@ -204,7 +204,7 @@ const Home: NextPage = () => {
                     onClick={handleBuy}
                   >
                     Send a {selected.name} Coffee ({selected?.value?.toString()}{" "}
-                    ETH)
+                    FTM)
                   </button>
 
                   <button
@@ -265,7 +265,7 @@ const Home: NextPage = () => {
                   <div className="md:text-left">
                     <div className="text-[22px] md:text-md">{coffee.name}</div>
                     <div className="text-[12px] md:text-[16px]">
-                      {coffee?.value?.toString()} ETH
+                      {coffee?.value?.toString()} FTM
                     </div>
                   </div>
                 </div>
@@ -306,10 +306,10 @@ const Home: NextPage = () => {
                       <span className="text-[12px] ml-1">
                         (
                         {Number(memo[4]) === 1
-                          ? "0.001 ETH"
+                          ? "1 FTM"
                           : Number(memo[4]) === 2
-                          ? "0.003 ETH"
-                          : "0.005 ETH"}
+                          ? "3 FTM"
+                          : "5 FTM"}
                         )
                       </span>
                     </div>

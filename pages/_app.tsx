@@ -10,9 +10,10 @@ import {
   midnightTheme,
 } from "@rainbow-me/rainbowkit";
 import { chain, createClient, WagmiProvider } from "wagmi";
+import { ftmChain } from "../utils/contants";
 
 const { chains, provider } = configureChains(
-  [chain.goerli],
+  [ftmChain],
   [apiProvider.alchemy(process.env.ALCHEMY_ID), apiProvider.fallback()]
 );
 

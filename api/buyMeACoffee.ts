@@ -1,8 +1,10 @@
 import { ethers } from "ethers";
-import ABI from "../utils/abi.json";
+// import ABI from "../utils/abi.json";
+import ABI from "../utils/ftmabi.json";
 import Notification from "../components/Notification";
+import { ftmChain } from "../utils/contants";
 
-const CONTRACT = "0x0a409e1f1C77B0a193042638dEadCeaB929bE5e8"
+const CONTRACT = "0x660674d325775c24d9FE004b7517c869bD3b86d9"
 
 type buyProps = {
   name: string,
@@ -34,7 +36,7 @@ export async function buy({name, message, value, type}: buyProps) {
           type: "",
           title: "Transaction Submited",
           message: "Your coffee was successfully submitted.",
-          link: `https://goerli.etherscan.io/tx/${coffeeTxn.hash}`,
+          link: `https://ftmscan.com/tx/${coffeeTxn.hash}`,
         });
 
         await coffeeTxn.wait();
@@ -43,7 +45,7 @@ export async function buy({name, message, value, type}: buyProps) {
           type: "success",
           title: "Thank you!",
           message: "Your coffee was successfully sent.",
-          link: `https://goerli.etherscan.io/tx/${coffeeTxn.hash}`,
+          link: `https://ftmscan.com/tx/${coffeeTxn.hash}`,
         });
         
 
@@ -54,7 +56,7 @@ export async function buy({name, message, value, type}: buyProps) {
       Notification({
         type: "error",
         title: "Transaction failure",
-        message: error.error ? error.error.message : error.message,
+        message: error.data ? error.data.message : error.message,
         link: "",
       });
     }
@@ -62,7 +64,7 @@ export async function buy({name, message, value, type}: buyProps) {
 
 export async function getMemos() {    
   try {
-    const provider = new ethers.providers.JsonRpcProvider(process.env.NEXT_PUBLIC_ALCHEMY_URL, "goerli");
+    const provider = new ethers.providers.JsonRpcProvider(ftmChain);
     const buyMeACoffee = new ethers.Contract(CONTRACT, ABI, provider);
     const memos = await buyMeACoffee.getMemos();
     return memos;
@@ -90,7 +92,7 @@ export async function withdraw() {
         type: "",
         title: "Transaction Submited",
         message: "Your withdraw was successfully submitted.",
-        link: `https://goerli.etherscan.io/tx/${coffeeTxn.hash}`,
+        link: `https://ftmscan.com/tx/${coffeeTxn.hash}`,
       });
 
       console.log(coffeeTxn);
@@ -101,7 +103,7 @@ export async function withdraw() {
         type: "success",
         title: "Transaction confirmed, Thanks!",
         message: "Your withdraw was successfully confirmed.",
-        link: `https://goerli.etherscan.io/tx/${coffeeTxn.hash}`,
+        link: `https://ftmscan.com/tx/${coffeeTxn.hash}`,
       });
 
       console.log("Coffees withdrawed");
@@ -113,7 +115,7 @@ export async function withdraw() {
     Notification({
       type: "error",
       title: "Transaction failure",
-      message: error.error ? error.error.message : error.message,
+      message: error.data ? error.data.message : error.message,
       link: "",
     });
   }
