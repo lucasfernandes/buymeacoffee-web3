@@ -21,10 +21,7 @@ export default function Header({
   const checkIsOwner = useCallback(
     async (address: string) => {
       const response = await isOwner(address);
-
       setShowWithdraw(response || false);
-
-      console.log(response);
     },
     [setShowWithdraw]
   );
@@ -32,6 +29,10 @@ export default function Header({
   useEffect(() => {
     if (wallet && wallet.address) {
       checkIsOwner(wallet.address);
+    }
+
+    if (!wallet) {
+      setShowWithdraw(false);
     }
   }, [wallet]);
   return (

@@ -1,5 +1,4 @@
 export   const ftmChain: any = {
-  url: process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_URL,
   id: 250,
   name: "Fantom Opera",
   nativeCurrency: {
@@ -14,4 +13,5 @@ export   const ftmChain: any = {
     default: { name: "ftmscan", url: "https://ftmscan.com" },
   },
   testnet: false,
+  url: process.env.NEXT_PUBLIC_GETBLOCK_FANTOM_URL,
 };
